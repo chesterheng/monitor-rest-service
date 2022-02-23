@@ -2,7 +2,7 @@ const http = require("http");
 const url = require("url");
 
 const server = http.createServer(function (req, res) {
-  // parsedUrl = http://localhost:3000/myapp/?search=test#hash
+  // parsedUrl = http://localhost:3000/myapp/?search=test
   const parsedUrl = url.parse(req.url, true);
 
   // path = /myapp/
@@ -12,6 +12,9 @@ const server = http.createServer(function (req, res) {
   // match '/' from end of the pathname
   // trimmedPath = myapp
   const trimmedPath = path.replace(/^\/+|\/+$/g, "");
+
+  // queryStringObject = { search: 'test' }
+  const queryStringObject = parsedUrl.query;
 
   const method = req.method.toLowerCase();
 
