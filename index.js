@@ -13,6 +13,8 @@ const server = http.createServer(function (req, res) {
   // trimmedPath = myapp
   const trimmedPath = path.replace(/^\/+|\/+$/g, "");
 
+  const method = req.method.toLowerCase();
+
   res.end("Hello World\n");
 });
 
