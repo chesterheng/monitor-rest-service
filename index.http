@@ -1,5 +1,5 @@
 @server = http://localhost:3000
 
 ### Start a Server
-GET {{server}} HTTP/1.1
+GET {{server}}/pathname/?search=test#hash HTTP/1.1
 Content-Type: application/json

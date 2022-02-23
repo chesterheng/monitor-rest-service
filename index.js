@@ -1,6 +1,18 @@
 const http = require("http");
+const url = require("url");
 
 const server = http.createServer(function (req, res) {
+  // parsedUrl = http://localhost:3000/myapp/?search=test#hash
+  const parsedUrl = url.parse(req.url, true);
+
+  // path = /myapp/
+  const path = parsedUrl.pathname;
+
+  // match '/' from start of the pathname or
+  // match '/' from end of the pathname
+  // trimmedPath = myapp
+  const trimmedPath = path.replace(/^\/+|\/+$/g, "");
+
   res.end("Hello World\n");
 });
 
