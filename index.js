@@ -35,11 +35,44 @@ const server = http.createServer(function (req, res) {
   });
   req.on("end", function () {
     buffer += decoder.end();
-    res.end("Hello World\n");
-    console.log(buffer);
+
+    const chosenHandler =
+      typeof router[trimmedPath] !== "undefined"
+        ? router[trimmedPath]
+        : handlers.notFound;
+
+    const data = {
+      trimmedPath,
+      queryStringObject,
+      method,
+      headers,
+      payload: buffer,
+    };
+
+    chosenHandler(data, function (statusCode, payload) {
+      statusCode = typeof statusCode === "number" ? statusCode : 200;
+      payload = typeof payload === "object" ? payload : {};
+      const payloadString = JSON.stringify(payload);
+
+      res.writeHead(statusCode);
+      res.end(payloadString);
+    });
   });
 });
 
 server.listen(3000, function () {
   console.log("The server is listening on port 3000");
 });
+
+const handlers = {
+  sample: function (data, callback) {
+    callback(406, { name: "sample handler" });
+  },
+  notFound: function (data, callback) {
+    callback(404);
+  },
+};
+
+const router = {
+  sample: handlers.sample,
+};
