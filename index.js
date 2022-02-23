@@ -18,6 +18,15 @@ const server = http.createServer(function (req, res) {
 
   const method = req.method.toLowerCase();
 
+  // headers = {
+  //   'user-agent': 'vscode-restclient',
+  //   'content-type': 'application/json',
+  //   'accept-encoding': 'gzip, deflate',
+  //   host: 'localhost:3000',
+  //   connection: 'close'
+  // }
+  const headers = req.headers;
+
   res.end("Hello World\n");
 });
 
