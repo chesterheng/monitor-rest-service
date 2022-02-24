@@ -19,4 +19,6 @@
 - The API allows a signed-in user to edit or delete any of their checks
 - In the background, workers perform all the "checks" at the appropriate times, and send alerts to the users when a check changes its state from "up" to "down" or visa versa
 
+## Start the API
 
+- `NODE_ENV=production nodemon index.js`
