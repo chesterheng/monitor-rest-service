@@ -1,9 +1,31 @@
 const http = require("http");
+const https = require("https");
 const url = require("url");
 const StringDecoder = require("string_decoder").StringDecoder;
+const fs = require("fs");
 const config = require("./config");
 
-const server = http.createServer(function (req, res) {
+const httpServer = http.createServer(function (req, res) {
+  unifiedServer(req, res);
+});
+
+httpServer.listen(config["httpPort"], function () {
+  console.log(`The server is listening on port ${config["httpPort"]}`);
+});
+
+const httpsServerOptions = {
+  key: fs.readFileSync("./https/key.pem"),
+  cert: fs.readFileSync("./https/cert.pem"),
+};
+const httpsServer = https.createServer(httpsServerOptions, function (req, res) {
+  unifiedServer(req, res);
+});
+
+httpsServer.listen(config["httpsPort"], function () {
+  console.log(`The server is listening on port ${config["httpsPort"]}`);
+});
+
+const unifiedServer = function (req, res) {
   // parsedUrl = http://localhost:3000/myapp/?search=test
   const parsedUrl = url.parse(req.url, true);
 
@@ -60,11 +82,7 @@ const server = http.createServer(function (req, res) {
       res.end(payloadString);
     });
   });
-});
-
-server.listen(config["port"], function () {
-  console.log(`The server is listening on port ${config["port"]}`);
-});
+};
 
 const handlers = {
   sample: function (data, callback) {
